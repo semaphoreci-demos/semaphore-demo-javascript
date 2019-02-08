@@ -20,6 +20,33 @@ export class UsersTable1549545103672 implements MigrationInterface {
           name: "description",
           type: "text",
         },
+        {
+          name: "age",
+          type: "int",
+          isNullable: true,
+        },
+        {
+          name: "firstName",
+          type: "varchar",
+          length: "100",
+          isNullable: true,
+        },
+        {
+          name: "lastName",
+          type: "varchar",
+          length: "100",
+          isNullable: true,
+        },
+        {
+          name: "createdAt",
+          type: "timestamp",
+          default: 'now()',
+        },
+        {
+          name: "updatedAt",
+          type: "timestamp",
+          default: 'now()',
+        },
       ]
     }), true)
   }

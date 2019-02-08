@@ -5,7 +5,8 @@
   "username": "demouser",
   "password": "qwerty",
   "database": "demo",
-  "synchronize": true,
+  "synchronize": false,
+  "migrationsRun": true,
   "logging": false,
   "entities": [
      "src/entity/**/*.ts"
