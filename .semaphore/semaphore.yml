@@ -12,7 +12,7 @@ blocks:
         - name: NODE_ENV
           value: test
         - name: CI
-          value: true
+          value: 'true'
       prologue:
         commands:
           - nvm use
@@ -33,7 +33,7 @@ blocks:
         - name: NODE_ENV
           value: test
         - name: CI
-          value: true
+          value: 'true'
       prologue:
         commands:
           - checkout
@@ -49,7 +49,7 @@ blocks:
         - name: NODE_ENV
           value: test
         - name: CI
-          value: true
+          value: 'true'
       prologue:
         commands:
           - nvm use
@@ -70,7 +70,7 @@ blocks:
         - name: NODE_ENV
           value: test
         - name: CI
-          value: true
+          value: 'true'
       prologue:
         commands:
           - checkout
