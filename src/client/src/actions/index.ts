@@ -7,9 +7,26 @@ import {
   updateUserCall,
   createUserCall,
   removeUserCall,
+  fetchOneUserCall,
 } from "../api";
 import { IState, ICreatedUser, IUser, isCreatedUser } from '../reducers/initialState';
 import { AxiosError, AxiosResponse } from 'axios';
+
+export const fetchUserStart = createAction('FETCH_USER_START');
+export const fetchUserSuccess = createAction('FETCH_USER_SUCCESS');
+export const fetchUserFailure = createAction('FETCH_USER_FAILURE');
+
+export const fetchUser = (id: string) => (dispatch: ThunkDispatch<IState, null, AnyAction>) => {
+  dispatch(fetchUserStart());
+
+  fetchOneUserCall(id)
+    .then((result: AxiosResponse<ICreatedUser>) => {
+      dispatch(fetchUserSuccess(result.data));
+    })
+    .catch((error: AxiosError) => {
+      dispatch(fetchUserFailure(error));
+    });
+};
 
 export const fetchAllUsersStart = createAction('FETCH_USERS_START');
 export const fetchAllUsersSuccess = createAction('FETCH_USERS_SUCCESS');

@@ -13,7 +13,7 @@ import { ApiModule } from './api/api.module';
       password: 'qwerty',
       database: 'demo',
       entities: [__dirname + '/**/*.entity{.ts,.js}'],
-      // synchronize: true,
+      synchronize: true,
       migrations: ['migration/*.js'],
       cli: {
         migrationsDir: 'migration'

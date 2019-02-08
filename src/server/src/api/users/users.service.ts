@@ -28,6 +28,9 @@ export class UsersService {
     const item = new User();
     item.username = user.username;
     item.description = user.description;
+    item.age = user.age;
+    item.firstName = user.firstName;
+    item.lastName = user.lastName;
     return await this.usersRepository.save(item);
   }
 
@@ -35,6 +38,9 @@ export class UsersService {
     const item = await this.usersRepository.findOne({id});
     item.username = user.username;
     item.description = user.description;
+    item.age = user.age;
+    item.firstName = user.firstName;
+    item.lastName = user.lastName;
     return await this.usersRepository.save(item);
   }
 }

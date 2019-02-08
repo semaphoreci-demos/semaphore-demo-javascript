@@ -1,10 +1,13 @@
 export interface IUser {
-  username: string;
-  description: string;
+  readonly username: string;
+  readonly description: string;
+  readonly firstName?: string;
+  readonly lastName?: string;
+  readonly age?: number;
 }
 
 export interface ICreatedUser extends IUser {
-  id: string;
+  readonly id: string;
 }
 
 export function isCreatedUser(object: any): object is ICreatedUser {
@@ -12,20 +15,20 @@ export function isCreatedUser(object: any): object is ICreatedUser {
 }
 
 export interface IUsers {
-  [key: string]: ICreatedUser;
+  readonly [key: string]: ICreatedUser;
 }
 
 export type UserIds = string[];
 
 export interface IUsersState {
-  itemIds: UserIds
-  items: IUsers;
-  loading: boolean;
-  loaded: boolean;
+  readonly itemIds: UserIds
+  readonly items: IUsers;
+  readonly loading: boolean;
+  readonly loaded: boolean;
 }
 
 export interface IState {
-  users: IUsersState;
+  readonly users: IUsersState;
 }
 
 export const initialState: IState = {

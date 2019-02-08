@@ -13,6 +13,9 @@ import {
   removeUserStart,
   removeUserSuccess,
   removeUserFailure,
+  fetchUserStart,
+  fetchUserSuccess,
+  fetchUserFailure,
 } from '../actions';
 
 import { initialState, IUsersState, ICreatedUser, IUsers, IState } from './initialState';
@@ -26,9 +29,10 @@ const users = handleActions<IUsersState, AnyAction>({
       };
     },
     [fetchAllUsersSuccess.toString()]: (state: IUsersState, action: AnyAction) => {
-      const items = action.payload
+      const items: IUsers = action.payload
         .reduce((result: IUsers, current: ICreatedUser) => ({...result, [current.id]: current}), {});
-      const itemIds = Object.keys(items);
+      const itemIds = Object.keys(items)
+        .filter((id: string) => items[id]);
       return {
         ...state,
         itemIds,
@@ -38,6 +42,32 @@ const users = handleActions<IUsersState, AnyAction>({
       };
     },
     [fetchAllUsersFailure.toString()]: (state: IUsersState, action: AnyAction) => {
+      return {
+        ...state,
+        loading: false,
+      };
+    },
+    [fetchUserStart.toString()]: (state: IUsersState, action: AnyAction) => {
+      return {
+        ...state,
+        loading: true,
+      };
+    },
+    [fetchUserSuccess.toString()]: (state: IUsersState, action: AnyAction) => {
+      const items: IUsers = {
+        ...state.items,
+        [action.payload.id]: action.payload,
+      };
+      const itemIds = Object.keys(items)
+        .filter((id: string) => items[id]);
+      return {
+        ...state,
+        itemIds,
+        items,
+        loading: false,
+      };
+    },
+    [fetchUserFailure.toString()]: (state: IUsersState, action: AnyAction) => {
       return {
         ...state,
         loading: false,

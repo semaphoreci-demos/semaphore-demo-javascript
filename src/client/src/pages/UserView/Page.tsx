@@ -23,9 +23,17 @@ export interface IProps<ClassKey extends string = string> {
   match: match<{id: string}>;
   onEntitySave: (payload: IUser|ICreatedUser) => void;
   onDelete: (id: string) => void;
+  fetchUser: (id: string) => void;
 }
 
 class Page extends Component<IProps> {
+  async componentDidMount() {
+    const user = this.props.users.items[this.props.match.params.id];
+    if (!user && !this.props.users.loading) {
+      await this.props.fetchUser(this.props.match.params.id);
+    }
+  }
+
   render() {
     const { classes, users, onEntitySave, onDelete, history, match } = this.props;
 

@@ -4,7 +4,7 @@ import { connect } from 'react-redux';
 
 import Page from './Page';
 import { IState, IUser, ICreatedUser } from '../../reducers/initialState';
-import { saveUser, removeUser } from "../../actions";
+import { saveUser, removeUser, fetchUser } from "../../actions";
 
 const mapStateToProps = (state: IState) => {
   return {
@@ -16,6 +16,7 @@ const mapDispatchToProps = (dispatch: ThunkDispatch<IState, null, AnyAction>) =>
   return {
     onEntitySave: (payload: IUser|ICreatedUser) => dispatch(saveUser(payload)),
     onDelete: (id: string) => dispatch(removeUser(id)),
+    fetchUser: (id: string) => dispatch(fetchUser(id)),
   };
 };
 

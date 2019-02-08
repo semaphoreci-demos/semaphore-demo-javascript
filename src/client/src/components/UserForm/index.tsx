@@ -42,8 +42,21 @@ class UserForm extends Component<IProps> {
 
     const values: IUser|ICreatedUser = {
       id: item.id,
-      username: item.username,
-      description: item.description,
+      username: !item.username
+        ? ''
+        : item.username,
+      description: !item.description
+        ? ''
+        : item.description,
+      age: !item.age
+        ? 0
+        : item.age,
+      firstName: !item.firstName
+        ? ''
+        : item.firstName,
+      lastName: !item.lastName
+        ? ''
+        : item.lastName,
     };
 
     return (
@@ -57,6 +70,7 @@ class UserForm extends Component<IProps> {
         initialValues={values}
         validationSchema={userForm}
         onSubmit={this.handleSubmit}
+        enableReinitialize={true}
       />
     );
   }
