@@ -6,28 +6,7 @@ agent:
     os_image: ubuntu1804
 
 blocks:
-  - name: Install client dependencies
-    task:
-      env_vars:
-        - name: NODE_ENV
-          value: test
-        - name: CI
-          value: 'true'
-      prologue:
-        commands:
-          - nvm use
-          - node --version
-          - npm --version
-      jobs:
-        - name: npm install and cache
-          commands:
-            - checkout
-            - cd src/client
-            - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
-            - npm install
-            - cache store client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
-
-  - name: Client Tests
+  - name: Install dependencies
     task:
       env_vars:
         - name: NODE_ENV
@@ -37,34 +16,24 @@ blocks:
       prologue:
         commands:
           - checkout
-          - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
-      jobs:
-        - name: Everything
-          commands:
-            - npm test
-
-  - name: Install server dependencies
-    task:
-      env_vars:
-        - name: NODE_ENV
-          value: test
-        - name: CI
-          value: 'true'
-      prologue:
-        commands:
           - nvm use
           - node --version
           - npm --version
       jobs:
-        - name: npm install and cache
+        - name: client npm install and cache
           commands:
-            - checkout
+            - cd src/client
+            - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
+            - npm install
+            - cache store client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
+        - name: server npm install and cache
+          commands:
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
             - npm install
             - cache store server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
 
-  - name: Server Tests
+  - name: Tests
     task:
       env_vars:
         - name: NODE_ENV
@@ -74,8 +43,17 @@ blocks:
       prologue:
         commands:
           - checkout
-          - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
+          - nvm use
+          - node --version
+          - npm --version
       jobs:
-        - name: Everything
+        - name: Client Tests
           commands:
+            - cd src/client
+            - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
+            - npm test
+        - name: Server Tests
+          commands:
+            - cd src/server
+            - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
             - npm test
