@@ -1,6 +1,6 @@
-import { initialState } from "../reducers/initialState";
-import reducer from "./users";
-import { fetchOneUserActions } from "../actions";
+import { initialState } from '../reducers/initialState';
+import reducer from './users';
+import { fetchOneUserActions } from '../actions';
 
 describe('users selectors', () => {
   it('select users', () => {

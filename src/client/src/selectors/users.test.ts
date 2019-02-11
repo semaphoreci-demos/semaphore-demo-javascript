@@ -1,5 +1,5 @@
-import { initialState } from "../reducers/initialState";
-import { usersSelector } from "./users";
+import { initialState } from '../reducers/initialState';
+import { usersSelector } from './users';
 
 describe('users selectors', () => {
   it('select users', () => {
