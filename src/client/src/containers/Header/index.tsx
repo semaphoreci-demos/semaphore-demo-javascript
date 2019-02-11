@@ -1,17 +1,17 @@
-import { AnyAction } from "redux";
-import { ThunkDispatch } from "redux-thunk";
+import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 
 import Page from '../../components/Header';
-import { IState } from '../../reducers/initialState';
+import { IRootState } from '../../reducers/initialState';
+import { RootActions } from '../../reducers';
 
-const mapStateToProps = (state: IState) => {
+const mapStateToProps = (state: IRootState) => {
   return {
     users: state.users,
   };
 };
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<IState, null, AnyAction>) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<IRootState, null, RootActions>) => {
   return {
   };
 };

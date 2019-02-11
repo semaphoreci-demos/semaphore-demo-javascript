@@ -1,5 +1,5 @@
 import React, { Component, SyntheticEvent } from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import List from '@material-ui/core/List';
 import ListItem from '@material-ui/core/ListItem';
@@ -24,7 +24,7 @@ export interface IProps<ClassKey extends string = string> {
   onDelete: (id: string) => void;
 }
 
-class CurrencyList extends Component<IProps> {
+class UserList extends Component<IProps> {
   handleDelete = (id: string) => (event: SyntheticEvent) => {
     event.preventDefault();
     this.props.onDelete(id);
@@ -35,7 +35,7 @@ class CurrencyList extends Component<IProps> {
 
     return (
       <React.Fragment>
-        <List component="nav">
+        <List>
           {
             users.itemIds.map((id, index) => {
               const item = users.items[id];
@@ -46,7 +46,7 @@ class CurrencyList extends Component<IProps> {
                   key={index}
                 >
                   <ListItem
-                    button
+                    button={true}
                     dense={true}
                   >
                     <ListItemText
@@ -60,7 +60,7 @@ class CurrencyList extends Component<IProps> {
                     </ListItemSecondaryAction>
                   </ListItem>
                 </NavLink>
-              )
+              );
             })
           }
         </List>
@@ -69,4 +69,4 @@ class CurrencyList extends Component<IProps> {
   }
 }
 
-export default withStyles(styles, { withTheme: true })(CurrencyList);
+export default withStyles(styles, { withTheme: true })(UserList);

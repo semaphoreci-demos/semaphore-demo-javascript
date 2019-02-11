@@ -1,12 +1,11 @@
-import React, { SyntheticEvent } from "react";
-import Button from "@material-ui/core/Button";
+import React, { SyntheticEvent } from 'react';
+import Button from '@material-ui/core/Button';
 import { withStyles, Theme } from '@material-ui/core/styles';
-import TextField from "@material-ui/core/TextField";
+import TextField from '@material-ui/core/TextField';
 import FormControl from '@material-ui/core/FormControl';
-import { IUser, } from "../../reducers/initialState";
+import { IUser, } from '../../reducers/initialState';
 import { FormikProps, } from 'formik';
-import { ClassNameMap } from "@material-ui/core/styles/withStyles";
-import { History } from "history";
+import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 
 const styles = (theme: Theme) => ({
   formControlControls: {
@@ -17,7 +16,6 @@ const styles = (theme: Theme) => ({
   textField: {
     marginLeft: theme.spacing.unit,
     marginRight: theme.spacing.unit,
-    // width: 400,
   },
   button: {
     margin: theme.spacing.unit,
@@ -26,8 +24,8 @@ const styles = (theme: Theme) => ({
 
 export interface IProps<ClassKey extends string = string> {
   classes: Partial<ClassNameMap<ClassKey>>;
-  history: History;
-  onDelete?: (event: SyntheticEvent) => void;
+  onDelete?: (event: SyntheticEvent) => any;
+  onGoBack: () => any;
   id?: string;
 }
 
@@ -63,7 +61,7 @@ class Form extends React.Component<FormikProps<IUser> & IProps> {
     return (
       <form
         className={classes.container}
-        noValidate
+        noValidate={true}
         autoComplete="off"
         onSubmit={handleSubmit}
       >
@@ -72,7 +70,7 @@ class Form extends React.Component<FormikProps<IUser> & IProps> {
           id="username"
           name="username"
           label="Username"
-          helperText={touched.username ? errors.username : ""}
+          helperText={touched.username ? errors.username : ''}
           error={touched.username && Boolean(errors.username)}
           className={classes.textField}
           value={username}
@@ -85,7 +83,7 @@ class Form extends React.Component<FormikProps<IUser> & IProps> {
           id="description"
           name="description"
           label="Description"
-          helperText={touched.description ? errors.description : ""}
+          helperText={touched.description ? errors.description : ''}
           error={touched.description && Boolean(errors.description)}
           className={classes.textField}
           value={description}
@@ -98,7 +96,7 @@ class Form extends React.Component<FormikProps<IUser> & IProps> {
           id="age"
           name="age"
           label="Age"
-          helperText={touched.age ? errors.age : ""}
+          helperText={touched.age ? errors.age : ''}
           error={touched.age && Boolean(errors.age)}
           className={classes.textField}
           value={age}
@@ -111,7 +109,7 @@ class Form extends React.Component<FormikProps<IUser> & IProps> {
           id="firstName"
           name="firstName"
           label="First Name"
-          helperText={touched.firstName ? errors.firstName : ""}
+          helperText={touched.firstName ? errors.firstName : ''}
           error={touched.firstName && Boolean(errors.firstName)}
           className={classes.textField}
           value={firstName}
@@ -124,18 +122,18 @@ class Form extends React.Component<FormikProps<IUser> & IProps> {
           id="lastName"
           name="lastName"
           label="Last Name"
-          helperText={touched.lastName ? errors.lastName : ""}
+          helperText={touched.lastName ? errors.lastName : ''}
           error={touched.lastName && Boolean(errors.lastName)}
           className={classes.textField}
           value={lastName}
           onChange={this.handleChange('lastName')}
           margin="normal"
         />
-        <FormControl className={classes.formControlControls} fullWidth>
+        <FormControl className={classes.formControlControls} fullWidth={true}>
           <Button
             variant="contained"
             className={classes.button}
-            onClick={() => this.props.history.goBack()}
+            onClick={this.props.onGoBack}
           >
             Back
           </Button>
@@ -149,7 +147,6 @@ class Form extends React.Component<FormikProps<IUser> & IProps> {
           </Button>}
           <Button
             type="submit"
-            // fullWidth
             variant="contained"
             color="primary"
             disabled={!isValid}
@@ -161,6 +158,6 @@ class Form extends React.Component<FormikProps<IUser> & IProps> {
       </form>
     );
   }
-};
+}
 
 export default withStyles(styles, { withTheme: true })(Form);

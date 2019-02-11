@@ -5,7 +5,6 @@ import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import UserForm from '../../components/UserForm';
 import { IUsersState, IUser, ICreatedUser } from '../../reducers/initialState';
 import { History } from 'history';
-import { match } from 'react-router';
 
 const styles = (theme: Theme) => ({
   root: {
@@ -20,13 +19,12 @@ export interface IProps<ClassKey extends string = string> {
   classes: Partial<ClassNameMap<ClassKey>>;
   users: IUsersState;
   history: History;
-  match: match<{id: string}>;
-  onEntitySave: (payload: IUser|ICreatedUser) => void;
+  onEntitySave: (payload: IUser|ICreatedUser) => any;
 }
 
 class Page extends Component<IProps> {
   render() {
-    const { classes, users, history, match, } = this.props;
+    const { classes, users, history, } = this.props;
 
     return (
       <div className={classes.root}>
@@ -35,7 +33,7 @@ class Page extends Component<IProps> {
             onEntitySave={this.props.onEntitySave}
             users={users}
             history={history}
-            id={match.params.id}
+            id={''}
           />
         </Paper>
       </div>

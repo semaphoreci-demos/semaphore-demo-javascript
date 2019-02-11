@@ -4,8 +4,8 @@ import Paper from '@material-ui/core/Paper';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 import UserForm from '../../components/UserForm';
 import { IUsersState, ICreatedUser, IUser } from '../../reducers/initialState';
-import { match } from 'react-router';
 import { History } from 'history';
+import { RouteComponentProps } from 'react-router-dom';
 
 const styles = (theme: Theme) => ({
   root: {
@@ -16,14 +16,13 @@ const styles = (theme: Theme) => ({
   },
 });
 
-export interface IProps<ClassKey extends string = string> {
+export interface IProps<ClassKey extends string = string> extends RouteComponentProps<any> , React.Props<any> {
   classes: Partial<ClassNameMap<ClassKey>>;
   users: IUsersState;
   history: History;
-  match: match<{id: string}>;
-  onEntitySave: (payload: IUser|ICreatedUser) => void;
-  onDelete: (id: string) => void;
-  fetchUser: (id: string) => void;
+  onEntitySave: (payload: IUser|ICreatedUser) => any;
+  onDelete: (id: string) => any;
+  fetchUser: (id: string) => any;
 }
 
 class Page extends Component<IProps> {

@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
-import { Link } from "react-router-dom";
+import { Link } from 'react-router-dom';
 import Fab from '@material-ui/core/Fab';
 import AddIcon from '@material-ui/icons/Add';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
@@ -26,8 +26,8 @@ const styles = (theme: Theme) => ({
 export interface IProps<ClassKey extends string = string> {
   classes: Partial<ClassNameMap<ClassKey>>;
   users: IUsersState;
-  fetchUsers(): void;
-  onDelete: (id: string) => void;
+  fetchUsers(): any;
+  onDelete: (id: string) => any;
 }
 
 class Page extends Component<IProps> {

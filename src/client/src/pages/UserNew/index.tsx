@@ -1,18 +1,19 @@
-import { AnyAction } from "redux";
-import { ThunkDispatch } from "redux-thunk";
+import { ThunkDispatch } from 'redux-thunk';
 import { connect } from 'react-redux';
 
 import Page from './Page';
-import { IState, IUser, ICreatedUser } from '../../reducers/initialState';
-import { saveUser } from "../../actions";
+import { IRootState, IUser, ICreatedUser } from '../../reducers/initialState';
+import { saveUser } from '../../actions';
+import { usersSelector } from '../../selectors';
+import { RootActions } from '../../reducers';
 
-const mapStateToProps = (state: IState) => {
+const mapStateToProps = (state: IRootState) => {
   return {
-    users: state.users,
+    users: usersSelector(state),
   };
 };
 
-const mapDispatchToProps = (dispatch: ThunkDispatch<IState, null, AnyAction>) => {
+const mapDispatchToProps = (dispatch: ThunkDispatch<IRootState, null, RootActions>) => {
   return {
     onEntitySave: (payload: IUser|ICreatedUser) => dispatch(saveUser(payload)),
   };

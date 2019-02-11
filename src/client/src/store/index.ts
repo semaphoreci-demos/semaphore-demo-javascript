@@ -6,13 +6,13 @@ import { composeWithDevTools } from 'redux-devtools-extension';
 import { routerMiddleware } from 'connected-react-router';
 
 import rootReducer from '../reducers';
-import { IState, initialState } from '../reducers/initialState';
+import { IRootState } from '../reducers/initialState';
 
 export const history = createHistory({
   basename: process.env.PUBLIC_URL,
 });
 
-const configureStore = (): { store: Store<IState> } => {
+const configureStore = (): { store: Store<IRootState> } => {
   const middlewares = [
     routerMiddleware(history),
     thunk,

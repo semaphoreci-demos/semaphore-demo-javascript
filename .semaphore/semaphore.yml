@@ -33,6 +33,31 @@ blocks:
             - npm install
             - cache store server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
 
+  - name: Lint
+    task:
+      env_vars:
+        - name: NODE_ENV
+          value: test
+        - name: CI
+          value: 'true'
+      prologue:
+        commands:
+          - checkout
+          - nvm use
+          - node --version
+          - npm --version
+      jobs:
+        - name: Client Lint
+          commands:
+            - cd src/client
+            - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
+            - npm run lint
+        - name: Server Lint
+          commands:
+            - cd src/server
+            - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
+            - npm run lint
+
   - name: Tests
     task:
       env_vars:
@@ -57,3 +82,52 @@ blocks:
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
             - npm test
+
+  - name: E2e Tests
+    task:
+      env_vars:
+        - name: NODE_ENV
+          value: test
+        - name: CI
+          value: 'true'
+      prologue:
+        commands:
+          - checkout
+          - nvm use
+          - node --version
+          - npm --version
+          - sem-service start postgres
+      jobs:
+        - name: Server Tests
+          commands:
+            - cd src/server
+            - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
+            - cp sample.env .env
+            - cp ormconfig.sample.json ormconfig.json
+            - npm run migrate:up
+            - npm run test:e2e
+
+  - name: Build
+    task:
+      env_vars:
+        - name: NODE_ENV
+          value: production
+      prologue:
+        commands:
+          - checkout
+          - nvm use
+          - node --version
+          - npm --version
+      jobs:
+        - name: Client Tests
+          commands:
+            - cd src/client
+            - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
+            - npm run build
+            - cache restore client-dist-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-dist-$SEMAPHORE_GIT_BRANCH,client-dist-master
+        - name: Server Tests
+          commands:
+            - cd src/server
+            - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
+            - npm run build
+            - cache restore server-dist-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-dist-$SEMAPHORE_GIT_BRANCH,server-dist-master

@@ -2,7 +2,7 @@ import { History } from 'history';
 import React from 'react';
 import { Provider } from 'react-redux';
 import { Route, Switch } from 'react-router-dom';
-import { ConnectedRouter as Router } from 'connected-react-router'
+import { ConnectedRouter as Router } from 'connected-react-router';
 import Header from '../../containers/Header';
 import HomePage from '../../pages/Home';
 import UserListPage from '../../pages/UserList';

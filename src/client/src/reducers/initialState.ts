@@ -1,3 +1,5 @@
+import { RouterState } from 'connected-react-router';
+
 export interface IUser {
   readonly username: string;
   readonly description: string;
@@ -21,17 +23,18 @@ export interface IUsers {
 export type UserIds = string[];
 
 export interface IUsersState {
-  readonly itemIds: UserIds
+  readonly itemIds: UserIds;
   readonly items: IUsers;
   readonly loading: boolean;
   readonly loaded: boolean;
 }
 
-export interface IState {
+export interface IRootState {
   readonly users: IUsersState;
+  readonly router?: RouterState;
 }
 
-export const initialState: IState = {
+export const initialState: IRootState = {
   users: {
     itemIds: [],
     items: {},

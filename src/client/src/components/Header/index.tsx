@@ -1,5 +1,5 @@
 import React, { Component } from 'react';
-import { NavLink } from "react-router-dom";
+import { NavLink } from 'react-router-dom';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import AppBar from '@material-ui/core/AppBar';
 import Toolbar from '@material-ui/core/Toolbar';
@@ -65,7 +65,7 @@ export interface IProps<ClassKey extends string = string> {
 }
 
 export interface IState {
-  drawerOpen: boolean
+  drawerOpen: boolean;
 }
 
 class Header extends Component<IProps, IState> {
@@ -81,7 +81,7 @@ class Header extends Component<IProps, IState> {
     this.setState({
       drawerOpen: open,
     });
-  };
+  }
 
   render() {
     const { classes, users } = this.props;
@@ -90,13 +90,13 @@ class Header extends Component<IProps, IState> {
       <div className={classes.list}>
         <List>
           <NavLink to={routes.users.new} className={classes.sideListItem}>
-            <ListItem button>
+            <ListItem button={true}>
               <ListItemIcon><AddIcon /></ListItemIcon>
               <ListItemText primary={'New User'} />
             </ListItem>
           </NavLink>
           <NavLink to={routes.users.list} className={classes.sideListItem}>
-            <ListItem button>
+            <ListItem button={true}>
               <ListItemIcon><ListIcon /></ListItemIcon>
               <ListItemText primary={'List Users'} />
             </ListItem>
@@ -126,9 +126,7 @@ class Header extends Component<IProps, IState> {
             </Typography>
           </Toolbar>
         </AppBar>
-        { (users.loading) &&
-          <LinearProgress className={classes.progress}  color="secondary" />
-        }
+        {(users.loading) && <LinearProgress className={classes.progress}  color="secondary" />}
         <Drawer open={this.state.drawerOpen} onClose={this.toggleDrawer(false)}>
           <div
             tabIndex={0}
