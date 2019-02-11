@@ -20,7 +20,7 @@ describe('AppController (e2e)', () => {
       {...user},
     ],
     findOne: {...user},
-    remove: null,
+    remove: '',
     create: {...user},
     update: {...user},
   };
@@ -56,11 +56,11 @@ describe('AppController (e2e)', () => {
       .expect(JSON.stringify(result.findAll));
   });
 
-  it('/v1/api/users (DELETE)', () => {
+  it('/v1/api/users/1 (DELETE)', () => {
     return request(app.getHttpServer())
-      .delete('/v1/api/users')
+      .delete('/v1/api/users/1')
       .expect(200)
-      .expect(JSON.stringify(result.remove));
+      .expect(result.remove);
   });
 
   it('/v1/api/users/1 (GET)', () => {
@@ -72,16 +72,18 @@ describe('AppController (e2e)', () => {
 
   it('/v1/api/users/1 (PUT)', () => {
     return request(app.getHttpServer())
-      .put('/v1/api/users')
+      .put('/v1/api/users/1')
+      .send(user)
       .expect(200)
-      .expect(JSON.stringify(result.findAll));
+      .expect(JSON.stringify(result.update));
   });
 
   it('/v1/api/users (POST)', () => {
     return request(app.getHttpServer())
       .post('/v1/api/users')
-      .expect(200)
-      .expect(JSON.stringify(result.findAll));
+      .send(user)
+      .expect(201)
+      .expect(JSON.stringify(result.create));
   });
 
   afterAll(async () => {
