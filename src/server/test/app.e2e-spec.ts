@@ -3,6 +3,7 @@ import { Test } from '@nestjs/testing';
 import { AppModule } from './../src/app.module';
 import { INestApplication } from '@nestjs/common';
 import { UsersService } from '../src/api/users/users.service';
+import config from '../src/config';
 
 describe('AppController (e2e)', () => {
   const user = {
@@ -45,42 +46,42 @@ describe('AppController (e2e)', () => {
       .compile();
 
     app = moduleFixture.createNestApplication();
-    app.setGlobalPrefix('v1/api');
+    app.setGlobalPrefix(config.URL_PREFIX);
     await app.init();
   });
 
-  it('/v1/api/users (GET)', () => {
+  it(`/${config.URL_PREFIX}/users (GET)`, () => {
     return request(app.getHttpServer())
-      .get('/v1/api/users')
+      .get(`/${config.URL_PREFIX}/users`)
       .expect(200)
       .expect(JSON.stringify(result.findAll));
   });
 
-  it(`/v1/api/users/${user.id} (DELETE)`, () => {
+  it(`/${config.URL_PREFIX}/users/${user.id} (DELETE)`, () => {
     return request(app.getHttpServer())
-      .delete('/v1/api/users/1')
+      .delete(`/${config.URL_PREFIX}/users/${user.id}`)
       .expect(200)
       .expect(result.remove);
   });
 
-  it(`/v1/api/users/${user.id} (GET)`, () => {
+  it(`/${config.URL_PREFIX}/users/${user.id} (GET)`, () => {
     return request(app.getHttpServer())
-      .get('/v1/api/users/1')
+      .get(`/${config.URL_PREFIX}/users/${user.id}`)
       .expect(200)
       .expect(JSON.stringify(result.findOne));
   });
 
-  it(`/v1/api/users/${user.id} (PUT)`, () => {
+  it(`/${config.URL_PREFIX}/users/${user.id} (PUT)`, () => {
     return request(app.getHttpServer())
-      .put(`/v1/api/users/${user.id}`)
+      .put(`/${config.URL_PREFIX}/users/${user.id}`)
       .send(user)
       .expect(200)
       .expect(JSON.stringify(result.update));
   });
 
-  it('/v1/api/users (POST)', () => {
+  it(`/${config.URL_PREFIX}/users (POST)`, () => {
     return request(app.getHttpServer())
-      .post(`/v1/api/users`)
+      .post(`/${config.URL_PREFIX}/users`)
       .send(user)
       .expect(201)
       .expect(JSON.stringify(result.create));

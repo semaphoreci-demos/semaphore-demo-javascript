@@ -1,14 +1,7 @@
 import { Module } from '@nestjs/common';
 import { TypeOrmModule } from '@nestjs/typeorm';
-
 import { ApiModule } from './api/api.module';
-
-import * as dotenv from 'dotenv';
-import * as fs from 'fs';
-import * as path from 'path';
-import { AdvancedConsoleLogger } from 'typeorm';
-
-const config = dotenv.parse(fs.readFileSync(path.resolve(__dirname, '..', '.env')));
+import config from './config';
 
 @Module({
   imports: [

@@ -37,8 +37,36 @@ Instead, it will copy all the configuration files and the transitive dependencie
 
 You don’t have to ever use `eject`. The curated feature set is suitable for small and middle deployments, and you shouldn’t feel obligated to use this feature. However we understand that this tool wouldn’t be useful if you couldn’t customize it when you are ready for it.
 
+### `npm run cypress:open`
+
+Opens cypress dashboard to manage e2e tests
+
+### `npm run start:ci`
+
+Start app con port 3030. Shortcut for ci e2e step
+
+### `npm run cypress:run`
+
+**Note: you need to start client app to use this command**
+
+Runs e2e tests.
+
+### `npm run test:e2e`
+
+Runs e2e tests. It also starts client app on default port `3030` before running tests using `start-server-and-test` package
+
+### `npm run lint`
+
+Check app code stype
+
 ## Learn More
 
 You can learn more in the [Create React App documentation](https://facebook.github.io/create-react-app/docs/getting-started).
 
 To learn React, check out the [React documentation](https://reactjs.org/).
+
+## License
+
+Copyright (c) 2019 Rendered Text
+
+Distributed under the MIT License. See the file [LICENSE.md](../../LICENSE.md) in repo root.

@@ -1,24 +1,36 @@
-# Semaphore demo CI/CD pipeline using PHP Laravel
+# Semaphore demo CI/CD pipeline using JavaScript (ReactJS/NodeJS)
 
-Example application and CI/CD pipeline showing how to run a PHP Laravel project
-on Semaphore 2.0.
+Example application and CI/CD pipeline showing how to run a JavaScript project which consists of ReactJS client and NodeJS server on Semaphore 2.0.
 
 ## Local project setup
 
-To setup the project locally, your local environment needs to meet common
-Laravel development requirements, as per [Laravel
-Documentation](https://laravel.com/docs/5.7#server-requirements).
-We recommend setting up using Vagrant and Homestead, as it is a turn key
-solution supported on all major operating systems.
+This project will require postgresql database. If you don't have one you can launch docker container with db for this app.
 
-Once the local environment is set up, you can run the following commands:
+### Configuration
 
+```bash
+$ cp .sample.env .env
 ```
-cp .env.example .env // and enter your DB details in the newly created .env
-composer install
-php artisan key:generate
-php artisan migrate
+
+### Launch db
+
+```bash
+$ docker-compose up
 ```
+
+### Stop db
+
+```bash
+$ docker-compose down
+```
+
+### Configure and launch server
+
+Steps described in server [README](src/server/README.md)
+
+### Configure and launch client
+
+Steps described in client [README](src/client/README.md)
 
 ## CI/CD on Semaphore
 
@@ -36,25 +48,24 @@ After that, push to the repository to trigger a workflow on Semaphore.
 
 The CI pipeline will look like this:
 
-![CI pipeline on Semaphore](public/ci-pipeline.png)
+![CI pipeline on Semaphore](images/ci-pipeline.png)
 
 The example pipeline contains 6 blocks:
 
  - Install Dependencies
-    -  installs and caches all composer and npm dependencies
- - Run Code Analysis
-    - Runs PHP Mess Detector which as an example is installed as a composer dependency
-    - Runs PHP Code Sniffer which as an example is installed as a composer dependency
-    - Runs PHP Copy Detector which is called via cURL from the .phar package available online
+    -  installs and caches all npm dependencies
+ - Run Lint
+    - Runs tslint to check project files codestyle
  - Run Unit Tests
     - Runs PHPUnit Unit Tests
- - Run Browser Tests
-    - Runs browser tests through Laravel Dusk.
- - Run Security Tests
-    - Runs Sensiolabs security checker pulled in via cURL
+ - Run E2E Tests
+    - Runs E2E tests through cypress on client.
+    - Runs E2E tests through jest on server.
+ - Run project Build
+    - Runs tsc to build projects and prepare them for deploy
 
 ## License
 
 Copyright (c) 2019 Rendered Text
 
-Distributed under the MIT License. See the file LICENSE.md.
+Distributed under the MIT License. See the file [LICENSE.md](./LICENSE.md).
