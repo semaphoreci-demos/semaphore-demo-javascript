@@ -50,14 +50,14 @@ The CI pipeline will look like this:
 
 ![CI pipeline on Semaphore](images/ci-pipeline.png)
 
-The example pipeline contains 6 blocks:
+The example pipeline contains 5 blocks:
 
  - Install Dependencies
     -  installs and caches all npm dependencies
  - Run Lint
     - Runs tslint to check project files codestyle
  - Run Unit Tests
-    - Runs PHPUnit Unit Tests
+    - Runs Unit Tests
  - Run E2E Tests
     - Runs E2E tests through cypress on client.
     - Runs E2E tests through jest on server.
