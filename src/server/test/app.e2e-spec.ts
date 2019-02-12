@@ -56,23 +56,23 @@ describe('AppController (e2e)', () => {
       .expect(JSON.stringify(result.findAll));
   });
 
-  it('/v1/api/users/1 (DELETE)', () => {
+  it(`/v1/api/users/${user.id} (DELETE)`, () => {
     return request(app.getHttpServer())
       .delete('/v1/api/users/1')
       .expect(200)
       .expect(result.remove);
   });
 
-  it('/v1/api/users/1 (GET)', () => {
+  it(`/v1/api/users/${user.id} (GET)`, () => {
     return request(app.getHttpServer())
       .get('/v1/api/users/1')
       .expect(200)
       .expect(JSON.stringify(result.findOne));
   });
 
-  it('/v1/api/users/1 (PUT)', () => {
+  it(`/v1/api/users/${user.id} (PUT)`, () => {
     return request(app.getHttpServer())
-      .put('/v1/api/users/1')
+      .put(`/v1/api/users/${user.id}`)
       .send(user)
       .expect(200)
       .expect(JSON.stringify(result.update));
@@ -80,7 +80,7 @@ describe('AppController (e2e)', () => {
 
   it('/v1/api/users (POST)', () => {
     return request(app.getHttpServer())
-      .post('/v1/api/users')
+      .post(`/v1/api/users`)
       .send(user)
       .expect(201)
       .expect(JSON.stringify(result.create));

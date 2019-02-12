@@ -98,6 +98,11 @@ blocks:
           - npm --version
           - sem-service start postgres
       jobs:
+        - name: Client Tests
+          commands:
+            - cd src/client
+            - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
+            - npm run test:e2e
         - name: Server Tests
           commands:
             - cd src/server
@@ -124,10 +129,10 @@ blocks:
             - cd src/client
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
             - npm run build
-            - cache restore client-dist-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-dist-$SEMAPHORE_GIT_BRANCH,client-dist-master
+            - cache store client-dist-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-dist-$SEMAPHORE_GIT_BRANCH,client-dist-master
         - name: Build Server
           commands:
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
             - npm run build
-            - cache restore server-dist-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-dist-$SEMAPHORE_GIT_BRANCH,server-dist-master
+            - cache store server-dist-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-dist-$SEMAPHORE_GIT_BRANCH,server-dist-master

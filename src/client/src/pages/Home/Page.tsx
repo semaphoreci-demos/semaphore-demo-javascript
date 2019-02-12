@@ -1,6 +1,7 @@
 import React, { Component } from 'react';
 import { withStyles, Theme } from '@material-ui/core/styles';
 import Paper from '@material-ui/core/Paper';
+import Typography from '@material-ui/core/Typography';
 import { ClassNameMap } from '@material-ui/core/styles/withStyles';
 
 const styles = (theme: Theme) => ({
@@ -23,7 +24,9 @@ class Page extends Component<IProps> {
     return (
       <div className={classes.root}>
         <Paper className={classes.root} elevation={1}>
-          Home
+          <Typography component="h1" variant="h4" gutterBottom={true}>
+            Home
+          </Typography>
         </Paper>
       </div>
     );

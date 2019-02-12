@@ -35,15 +35,18 @@
     "redux-thunk": "^2.3.0",
     "reselect": "^4.0.0",
     "typesafe-actions": "^3.0.0",
-    "typescript": "3.3.1",
     "yup": "^0.26.10"
   },
   "scripts": {
     "start": "react-scripts start",
+    "start:ci": "PORT=3030 react-scripts start",
     "build": "react-scripts build",
     "test": "react-scripts test",
     "eject": "react-scripts eject",
-    "lint": "tslint -p tsconfig.json -c tslint.json"
+    "lint": "tslint -p tsconfig.json -c tslint.json",
+    "cypress:open": "cypress open",
+    "cypress:run": "cypress run",
+    "test:e2e": "start-server-and-test start:ci http://localhost:3030 cypress:run"
   },
   "eslintConfig": {
     "extends": "react-app"
@@ -55,9 +58,15 @@
     "not op_mini all"
   ],
   "devDependencies": {
+    "@cypress/webpack-preprocessor": "^4.0.3",
     "@types/redux-mock-store": "^1.0.0",
+    "cypress": "^3.1.5",
     "redux-mock-store": "^1.5.3",
+    "start-server-and-test": "^1.7.11",
+    "ts-loader": "^5.3.3",
     "tslint": "^5.12.1",
-    "tslint-react": "^3.6.0"
+    "tslint-react": "^3.6.0",
+    "typescript": "^3.3.3",
+    "webpack": "^4.19.1"
   }
 }
