@@ -97,7 +97,9 @@ blocks:
           - node --version
           - npm --version
           - sem-service start postgres
+          - apt-get install libgtk2.0-0
       jobs:
+        # TODO cypress require additional package to be installed on ci server
         - name: Client Tests
           commands:
             - cd src/client
