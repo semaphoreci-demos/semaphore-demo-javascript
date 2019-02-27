@@ -1,5 +1,5 @@
 version: v1.0
-name: Semaphore React Example Pipeline
+name: Semaphore JavaScript Example Pipeline
 agent:
   machine:
     type: e1-standard-2
@@ -114,28 +114,3 @@ blocks:
             - cp ormconfig.ci.json ormconfig.json
             - npm run migrate:up
             - npm run test:e2e
-
-  - name: Build
-    task:
-      env_vars:
-        - name: NODE_ENV
-          value: production
-      prologue:
-        commands:
-          - checkout
-          - nvm use
-          - node --version
-          - npm --version
-      jobs:
-        - name: Build Client
-          commands:
-            - cd src/client
-            - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
-            - npm run build
-            - cache store client-dist-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-dist-$SEMAPHORE_GIT_BRANCH,client-dist-master
-        - name: Build Server
-          commands:
-            - cd src/server
-            - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
-            - npm run build
-            - cache store server-dist-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-dist-$SEMAPHORE_GIT_BRANCH,server-dist-master
