@@ -16,6 +16,7 @@ blocks:
       # https://docs.semaphoreci.com/article/66-environment-variables-and-secrets
       secrets:
         - name: markoa-dockerhub
+        - name:
       jobs:
       - name: Docker build
         commands:
