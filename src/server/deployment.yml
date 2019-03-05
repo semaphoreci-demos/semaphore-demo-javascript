@@ -1,0 +1,31 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: semaphore-demo-javascript-server
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: semaphore-demo-javascript-server
+  template:
+    metadata:
+      labels:
+        app: semaphore-demo-javascript-server
+    spec:
+      containers:
+        - name: semaphore-demo-javascript-server
+          image: semaphoredemos/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID
+
+---
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: semaphore-demo-javascript-client-lb
+spec:
+  selector:
+    app: semaphore-demo-javascript-server
+  type: LoadBalancer
+  ports:
+    - port: 80
+      targetPort: 3001
