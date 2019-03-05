@@ -173,6 +173,6 @@ promotions:
   #   auto_promote_on:
   #     - result: passed
   - name: Deploy client
-    pipeline_file: client-deploy.yml
+    pipeline_file: client-deploy-build.yml
     auto_promote_on:
       - result: passed
