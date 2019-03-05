@@ -8,6 +8,8 @@ RUN npm install
 
 COPY . .
 
+RUN npm run build:prod
+
 EXPOSE 3001
 
-CMD [ "npm", "start" ]
+CMD [ "npm", "start" "--ignore-scripts"]
