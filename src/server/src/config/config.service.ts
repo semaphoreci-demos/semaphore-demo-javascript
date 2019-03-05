@@ -46,7 +46,8 @@ export class ConfigService {
         .default('postgres'),
       DATABASE_PASSWORD: Joi
         .string()
-        .default(''),
+        .allow('')
+        .allow(null),
       DATABASE_DBNAME: Joi
         .string()
         .default('postgres'),
