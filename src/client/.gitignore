@@ -24,3 +24,5 @@ yarn-error.log*
 
 cypress/integration/examples
 cypress/videos
+
+production.env

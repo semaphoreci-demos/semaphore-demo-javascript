@@ -32,7 +32,8 @@ blocks:
         commands:
           - cd src/server
 
-          - cp ormconfig.production.json ormconfig.json
+          - cp /home/semaphore/ormconfig.production.json ormconfig.json
+          - cp /home/semaphore/server-production.env production.env
 
           # Use docker layer caching and reuse unchanged layers to build a new
           # container image faster.
