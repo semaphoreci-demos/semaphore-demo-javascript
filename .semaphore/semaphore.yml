@@ -153,7 +153,6 @@ blocks:
           commands:
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
-            - cp ci.env .env
             - cp ormconfig.ci.json ormconfig.json
             - npm run migrate:up
             - npm run test:e2e
