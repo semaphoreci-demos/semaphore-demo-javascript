@@ -31,7 +31,7 @@ blocks:
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
 
             # Restore build from cache.
-            - cache restore client-build-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json)
+            - cache restore client-build-$SEMAPHORE_WORKFLOW_ID
 
             - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
             - chmod 600 ~/.ssh/id_rsa_semaphoreci_ghpages_deploy

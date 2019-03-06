@@ -60,7 +60,7 @@ blocks:
             - npm run build
             # Store the latest version of node modules in cache to reuse in
             # further blocks:
-            - cache store client-build-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) build
+            - cache store client-build-$SEMAPHORE_WORKFLOW_ID build
 
 # The deployment pipeline is defined to run on manual approval from the UI.
 # Semaphore will the time and the name of the person who promotes each
