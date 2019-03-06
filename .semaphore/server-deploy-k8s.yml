@@ -14,15 +14,24 @@ blocks:
       # https://docs.semaphoreci.com/article/66-environment-variables-and-secrets
       secrets:
         - name: gc-k8s-secret
+        - name: gcr-secret
 
       # Define an environment variable which configures kubectl:
       env_vars:
         - name: KUBECONFIG
           value: /home/semaphore/.kube/gc-k8s.yaml
+      prologue:
+        commands:
+          # Authenticate using the file injected from the secret
+          - gcloud auth activate-service-account --key-file=.secrets.gcp.json
+          # Don't forget -q to silence confirmation prompts
+          - gcloud auth configure-docker -q
+          - gcloud config set project $GCP_PROJECT_ID
+          - gcloud config set compute/zone $GCP_PROJECT_DEFAULT_ZONE
+          - checkout
       jobs:
       - name: Deploy
         commands:
-          - checkout
           - kubectl get nodes
           - kubectl get pods
 
