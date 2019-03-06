@@ -29,6 +29,7 @@ blocks:
           - gcloud config set project $GCP_PROJECT_ID
           - gcloud config set compute/zone $GCP_PROJECT_DEFAULT_ZONE
           - checkout
+          - cd src/server
       jobs:
       - name: Deploy
         commands:
@@ -62,11 +63,10 @@ blocks:
           - gcloud config set compute/zone $GCP_PROJECT_DEFAULT_ZONE
           - whereis gcloud
           - checkout
+          - cd src/server
       jobs:
       - name: docker tag latest
         commands:
-          - cd src/server
-
           - docker pull "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID"
           - docker tag "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID" "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:latest"
           - docker push "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:latest"
