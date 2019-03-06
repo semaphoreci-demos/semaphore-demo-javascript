@@ -31,7 +31,7 @@ blocks:
         - name: CI
           value: 'true'
       secrets:
-        - name: client-production-env
+        - name: client-production-env-secret
       # This block runs two jobs in parallel and they both share common
       # setup steps. We can group them in a prologue.
       # See https://docs.semaphoreci.com/article/50-pipeline-yaml#prologue
