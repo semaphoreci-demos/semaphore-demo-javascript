@@ -14,7 +14,7 @@ spec:
     spec:
       containers:
         - name: semaphore-demo-javascript-server
-          image: semaphoredemos/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID
+          image: gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID
 
 ---
 
