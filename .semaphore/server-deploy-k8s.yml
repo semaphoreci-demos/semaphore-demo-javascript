@@ -60,6 +60,7 @@ blocks:
           - gcloud auth configure-docker -q
           - gcloud config set project $GCP_PROJECT_ID
           - gcloud config set compute/zone $GCP_PROJECT_DEFAULT_ZONE
+          - whereis gcloud
           - checkout
       jobs:
       - name: docker tag latest
