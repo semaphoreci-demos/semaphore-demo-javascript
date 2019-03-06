@@ -83,7 +83,9 @@ export class ConfigService {
         migrationsDir: 'migration',
       },
       extra: {
-        ssl: true,
+        ssl: this.get('NODE_ENV') === 'production'
+          ? true
+          : false,
       },
     };
   }
