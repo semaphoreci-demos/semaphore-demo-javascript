@@ -82,6 +82,9 @@ export class ConfigService {
       cli: {
         migrationsDir: 'migration',
       },
+      extra: {
+        ssl: true,
+      },
     };
   }
 }
