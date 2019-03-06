@@ -29,6 +29,6 @@ RUN npm install --production
 FROM node:carbon-alpine
 WORKDIR /usr/local/nub-api
 COPY --from=node_modules /tmp/node_modules ./node_modules
-COPY --from=dist /tmp/dist ./dist
+COPY --from=dist /tmp/dist *.env ormconfig*.json ./
 EXPOSE 3001
 CMD ["node", "dist/main.js"]
