@@ -8,17 +8,17 @@ agent:
 blocks:
   - name: Deploy server to Kubernetes
     task:
-      # Mount a secret which defines /home/semaphore/.kube/dok8s.yaml.
+      # Mount a secret which defines /home/semaphore/.kube/gc-k8s.yaml.
       # By mounting it, we make file available in the job environment.
       # For info on creating secrets, see:
       # https://docs.semaphoreci.com/article/66-environment-variables-and-secrets
       secrets:
-        - name: do-k8s-secret
+        - name: gc-k8s-secret
 
       # Define an environment variable which configures kubectl:
       env_vars:
         - name: KUBECONFIG
-          value: /home/semaphore/.kube/dok8s.yaml
+          value: /home/semaphore/.kube/gc-k8s.yaml
       jobs:
       - name: Deploy
         commands:
@@ -42,11 +42,21 @@ blocks:
   - name: Tag latest release
     task:
       secrets:
-        - name: markoa-dockerhub
+        - name: gcr-secret
+      prologue:
+        commands:
+          # Authenticate using the file injected from the secret
+          - gcloud auth activate-service-account --key-file=.secrets.gcp.json
+          # Don't forget -q to silence confirmation prompts
+          - gcloud auth configure-docker -q
+          - gcloud config set project $GCP_PROJECT_ID
+          - gcloud config set compute/zone $GCP_PROJECT_DEFAULT_ZONE
+          - checkout
       jobs:
       - name: docker tag latest
         commands:
-          - echo "${DOCKER_PASSWORD}" | docker login -u "${DOCKER_USERNAME}" --password-stdin
-          - docker pull semaphoredemos/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID
-          - docker tag semaphoredemos/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID semaphoredemos/semaphore-demo-javascript-server:latest
-          - docker push semaphoredemos/semaphore-demo-javascript-server:latest
+          - cd src/server
+
+          - docker pull "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID"
+          - docker tag "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID" "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:latest"
+          - docker push "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:latest"

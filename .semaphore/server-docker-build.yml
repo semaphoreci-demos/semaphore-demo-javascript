@@ -47,7 +47,7 @@ blocks:
           # https://docs.semaphoreci.com/article/12-environment-variables
 
           # Replace with your GCP Project ID
-          - docker build --cache-from semaphoredemos/semaphore-demo-javascript-server:latest -t "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID" .
+          - docker build --cache-from "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:latest" -t "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID" .
           - docker images
 
           # Push a new image to container registry:
