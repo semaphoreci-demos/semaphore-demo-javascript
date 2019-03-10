@@ -16,4 +16,4 @@ COPY --from=node_modules /tmp/node_modules ./node_modules
 COPY --from=dist /tmp/dist ./dist
 COPY --from=dist /tmp/*.env /tmp/ormconfig*.json ./
 EXPOSE 3001
-CMD ["npm", "start", "--ignore-scripts"]
+CMD ["node", "dist/main.js"]
