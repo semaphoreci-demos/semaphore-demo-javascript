@@ -50,8 +50,7 @@
     "cypress:run": "cypress run",
     "test:e2e": "start-server-and-test start:ci http://localhost:3030 cypress:run",
     "predeploy": "npm run build",
-    "deploy": "gh-pages -d build",
-    "justdeploy": "gh-pages -d build"
+    "deploy": "gh-pages -d build"
   },
   "eslintConfig": {
     "extends": "react-app"

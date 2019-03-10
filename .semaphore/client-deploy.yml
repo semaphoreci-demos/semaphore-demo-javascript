@@ -16,7 +16,6 @@ blocks:
       # https://docs.semaphoreci.com/article/66-environment-variables-and-secrets
       secrets:
         - name: gh-pages-secret
-        - name: gh-pages-ssh-key
       prologue:
         commands:
           # Get the latest version of our source code from GitHub:
@@ -40,6 +39,6 @@ blocks:
             - git config --global user.name '$GH_USERNAME'
             - git config --global user.email '$GH_EMAIL'
 
-            - npm run justdeploy
+            - npm run deploy --ignore-scripts
 
             - git config --global url."https://github.com/".insteadOf "git@github.com:"
