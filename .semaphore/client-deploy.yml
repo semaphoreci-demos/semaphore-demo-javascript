@@ -32,6 +32,7 @@ blocks:
             # Restore build from cache.
             - cache restore client-build-$SEMAPHORE_WORKFLOW_ID
 
+            # Config ssh and git to push new build files into gh-pages branch of app repository
             - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
             - chmod 600 ~/.ssh/id_rsa_semaphoreci_ghpages_deploy
             - ssh-add ~/.ssh/id_rsa_semaphoreci_ghpages_deploy
@@ -41,4 +42,5 @@ blocks:
 
             - npm run deploy
 
+            # Restore change to global git repository url rewrite to previous value
             - git config --global url."https://github.com/".insteadOf "git@github.com:"

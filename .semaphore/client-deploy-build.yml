@@ -51,6 +51,7 @@ blocks:
           commands:
             - cd src/client
 
+            # Copy production configs we linked using secrets
             - cp /home/semaphore/client-production.env .env
 
             # Restore dependencies from cache.
@@ -58,8 +59,8 @@ blocks:
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
 
             - npm run build
-            # Store the latest version of node modules in cache to reuse in
-            # further blocks:
+
+            # Store the latest version of client build in cache to reuse in further blocks:
             - cache store client-build-$SEMAPHORE_WORKFLOW_ID build
 
 # The deployment pipeline is defined to run on manual approval from the UI.

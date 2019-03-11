@@ -20,6 +20,7 @@ blocks:
         - name: server-production-env
       prologue:
         commands:
+          # Lets configure gcloud to push docker image into container registry
           # Authenticate using the file injected from the secret
           - gcloud auth activate-service-account --key-file=.secrets.gcp.json
           # Don't forget -q to silence confirmation prompts
@@ -32,6 +33,7 @@ blocks:
         commands:
           - cd src/server
 
+          # Copy production configs we linked using secrets
           - cp /home/semaphore/ormconfig.production.json ormconfig.json
           - cp /home/semaphore/server-production.env production.env
 
