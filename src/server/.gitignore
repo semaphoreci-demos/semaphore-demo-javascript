@@ -391,3 +391,5 @@ docker-compose.yml
 .env
 dist
 ormconfig.json
+ormconfig.production.json
+production.env

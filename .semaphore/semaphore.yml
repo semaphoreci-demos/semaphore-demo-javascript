@@ -153,7 +153,26 @@ blocks:
           commands:
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
-            - cp ci.env .env
             - cp ormconfig.ci.json ormconfig.json
             - npm run migrate:up
             - npm run test:e2e
+
+# If all tests pass, we move on to build a Docker image.
+# This is a job for a separate pipeline which we link with a promotion.
+#
+# What happens outside semaphore.yml will not appear in GitHub pull
+# request status report.
+#
+# In this example we run docker build automatically on every branch.
+# You may want to limit it by branch name, or trigger it manually.
+# For more on such options, see:
+# https://docs.semaphoreci.com/article/50-pipeline-yaml#promotions
+promotions:
+  - name: Dockerize server
+    pipeline_file: server-docker-build.yml
+    auto_promote_on:
+      - result: passed
+  - name: Deploy client
+    pipeline_file: client-deploy-build.yml
+    auto_promote_on:
+      - result: passed

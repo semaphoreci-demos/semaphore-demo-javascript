@@ -1,0 +1,72 @@
+# This pipeline runs after docker-build.yml
+version: v1.0
+name: Deploy server to Kubernetes
+agent:
+  machine:
+    type: e1-standard-2
+    os_image: ubuntu1804
+blocks:
+  - name: Deploy server to Kubernetes
+    task:
+      # Mount a secret which defines /home/semaphore/.kube/gc-k8s.yaml.
+      # By mounting it, we make file available in the job environment.
+      # For info on creating secrets, see:
+      # https://docs.semaphoreci.com/article/66-environment-variables-and-secrets
+      secrets:
+        - name: gc-k8s-secret
+        - name: gcr-secret
+
+      # Define an environment variable which configures kubectl:
+      env_vars:
+        - name: KUBECONFIG
+          value: /home/semaphore/.kube/gc-k8s.yaml
+      prologue:
+        commands:
+          # Authenticate using the file injected from the secret
+          - gcloud auth activate-service-account --key-file=.secrets.gcp.json
+          # Don't forget -q to silence confirmation prompts
+          - gcloud auth configure-docker -q
+          - gcloud config set project $GCP_PROJECT_ID
+          - gcloud config set compute/zone $GCP_PROJECT_DEFAULT_ZONE
+          - checkout
+          - cd src/server
+      jobs:
+      - name: Deploy
+        commands:
+          - kubectl get nodes
+          - kubectl get pods
+
+          # Our deployment.yml instructs Kubernetes to pull container image
+          # named semaphoredemos/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID
+          #
+          # envsubst is a tool which will replace $SEMAPHORE_WORKFLOW_ID with
+          # its current value. The same variable was used in server-docker-build.yml
+          # pipeline to tag and push a container image.
+          - envsubst < deployment.yml | tee deployment.yml
+
+          # Perform declarative deployment:
+          - kubectl apply -f deployment.yml
+
+  # If deployment to production succeeded, let's create a new version of
+  # our `latest` Docker image.
+  - name: Tag latest release
+    task:
+      secrets:
+        - name: gcr-secret
+      prologue:
+        commands:
+          # Authenticate using the file injected from the secret
+          - gcloud auth activate-service-account --key-file=.secrets.gcp.json
+          # Don't forget -q to silence confirmation prompts
+          - gcloud auth configure-docker -q
+          - gcloud config set project $GCP_PROJECT_ID
+          - gcloud config set compute/zone $GCP_PROJECT_DEFAULT_ZONE
+          - whereis gcloud
+          - checkout
+          - cd src/server
+      jobs:
+      - name: docker tag latest
+        commands:
+          - docker pull "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID"
+          - docker tag "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:$SEMAPHORE_WORKFLOW_ID" "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:latest"
+          - docker push "gcr.io/$GCP_PROJECT_ID/semaphore-demo-javascript-server:latest"

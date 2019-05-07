@@ -3,9 +3,10 @@ import { Test } from '@nestjs/testing';
 import { AppModule } from './../src/app.module';
 import { INestApplication } from '@nestjs/common';
 import { UsersService } from '../src/api/users/users.service';
-import config from '../src/config';
+import { ConfigService } from '../src/config/config.service';
 
 describe('AppController (e2e)', () => {
+  let prefix = '';
   const user = {
     id: 1,
     username: 'test',
@@ -46,42 +47,44 @@ describe('AppController (e2e)', () => {
       .compile();
 
     app = moduleFixture.createNestApplication();
-    app.setGlobalPrefix(config.URL_PREFIX);
+    const configService: ConfigService = app.get(ConfigService);
+    prefix = configService.get('URL_PREFIX');
+    app.setGlobalPrefix(prefix);
     await app.init();
   });
 
-  it(`/${config.URL_PREFIX}/users (GET)`, () => {
+  it(`/${prefix}/users (GET)`, () => {
     return request(app.getHttpServer())
-      .get(`/${config.URL_PREFIX}/users`)
+      .get(`/${prefix}/users`)
       .expect(200)
       .expect(JSON.stringify(result.findAll));
   });
 
-  it(`/${config.URL_PREFIX}/users/${user.id} (DELETE)`, () => {
+  it(`/${prefix}/users/${user.id} (DELETE)`, () => {
     return request(app.getHttpServer())
-      .delete(`/${config.URL_PREFIX}/users/${user.id}`)
+      .delete(`/${prefix}/users/${user.id}`)
       .expect(200)
       .expect(result.remove);
   });
 
-  it(`/${config.URL_PREFIX}/users/${user.id} (GET)`, () => {
+  it(`/${prefix}/users/${user.id} (GET)`, () => {
     return request(app.getHttpServer())
-      .get(`/${config.URL_PREFIX}/users/${user.id}`)
+      .get(`/${prefix}/users/${user.id}`)
       .expect(200)
       .expect(JSON.stringify(result.findOne));
   });
 
-  it(`/${config.URL_PREFIX}/users/${user.id} (PUT)`, () => {
+  it(`/${prefix}/users/${user.id} (PUT)`, () => {
     return request(app.getHttpServer())
-      .put(`/${config.URL_PREFIX}/users/${user.id}`)
+      .put(`/${prefix}/users/${user.id}`)
       .send(user)
       .expect(200)
       .expect(JSON.stringify(result.update));
   });
 
-  it(`/${config.URL_PREFIX}/users (POST)`, () => {
+  it(`/${prefix}/users (POST)`, () => {
     return request(app.getHttpServer())
-      .post(`/${config.URL_PREFIX}/users`)
+      .post(`/${prefix}/users`)
       .send(user)
       .expect(201)
       .expect(JSON.stringify(result.create));
