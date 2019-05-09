@@ -2,7 +2,6 @@
   "name": "@semaphoreci/semaphore-demo-javascript",
   "version": "0.1.0",
   "license": "MIT",
-  "homepage": "https://loginwashere.github.io/semaphore-demo-javascript",
   "dependencies": {
     "@material-ui/core": "^3.9.2",
     "@material-ui/icons": "^3.0.2",

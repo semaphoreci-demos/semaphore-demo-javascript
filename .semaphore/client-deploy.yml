@@ -39,5 +39,6 @@ blocks:
             - cache restore client-build-$SEMAPHORE_WORKFLOW_ID
 
             # Deploy to Google Cloud Storage
-            - gsutil -m rsync -r build gs://$BUCKET_NAME/semaphore-demo-javascript
-            - gsutil web set -m semaphore-demo-javascript/index.html gs://$BUCKET_NAME
+            - gsutil -m rsync -r build gs://$BUCKET_NAME
+            - gsutil iam ch allUsers:objectViewer gs://$BUCKET_NAME
+            - gsutil web set -m index.html -e 404.html gs://$BUCKET_NAME
