@@ -13,7 +13,7 @@ export class CreateUserDto {
   @IsOptional()
   readonly lastName?: string;
 
-  @IsInt()
+  @IsString()
   @IsOptional()
   readonly age?: number;
 }
