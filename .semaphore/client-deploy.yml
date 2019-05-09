@@ -10,19 +10,25 @@ agent:
 blocks:
   - name: Build
     task:
-      # Mount a secret which defines DOCKER_USERNAME and DOCKER_PASSWORD
-      # environment variables.
+      # Mount a secret which defines /home/semaphore/.kube/gc-k8s.yaml.
+      # By mounting it, we make file available in the job environment.
       # For info on creating secrets, see:
       # https://docs.semaphoreci.com/article/66-environment-variables-and-secrets
       secrets:
-        - name: gh-pages-secret
-      prologue:
-        commands:
-          # Get the latest version of our source code from GitHub:
-          - checkout --use-cache
+        - name: gc-k8s-secret
+        - name: gcr-secret
       jobs:
-        - name: Deploy to GitHub Pages
+        - name: Deploy to Google Cloud Storage
           commands:
+            # Authenticate using the file injected from the secret
+            - gcloud auth activate-service-account --key-file=.secrets.gcp.json
+            # Don't forget -q to silence confirmation prompts
+            - gcloud auth configure-docker -q
+            - gcloud config set project $GCP_PROJECT_ID
+            - gcloud config set compute/zone $GCP_PROJECT_DEFAULT_ZONE
+
+            # Get the latest version of our source code from GitHub:
+            - checkout --use-cache
             - cd src/client
 
             # Restore dependencies from cache.
@@ -32,15 +38,6 @@ blocks:
             # Restore build from cache.
             - cache restore client-build-$SEMAPHORE_WORKFLOW_ID
 
-            # Config ssh and git to push new build files into gh-pages branch of app repository
-            - ssh-keyscan -H github.com >> ~/.ssh/known_hosts
-            - chmod 600 ~/.ssh/id_rsa_semaphoreci_ghpages_deploy
-            - ssh-add ~/.ssh/id_rsa_semaphoreci_ghpages_deploy
-            - git config --global url."git@github.com:".insteadOf "https://github.com/"
-            - git config --global user.name '$GH_USERNAME'
-            - git config --global user.email '$GH_EMAIL'
-
-            - npm run deploy
-
-            # Restore change to global git repository url rewrite to previous value
-            - git config --global url."https://github.com/".insteadOf "git@github.com:"
+            # Deploy to Google Cloud Storage
+            - gsutil -m rsync -r build gs://$BUCKET_NAME/semaphore-demo-javascript
+            - gsutil web set -m semaphore-demo-javascript/index.html gs://$BUCKET_NAME
