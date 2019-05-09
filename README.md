@@ -39,7 +39,7 @@ As you can see deploy pipelines of client and server depend only on their own bu
 and therefore could be run in parallel.
 
  - Deploy
-   - Deploy client - commit and push build into gh-pages branch to deploy on Github
+   - Deploy client - commit and push build into Google Cloud Storage bucket
    - Deploy server
       - Deploy server to k8s, pdate k8s deployment using deployment config
       - Tag container if all went well
