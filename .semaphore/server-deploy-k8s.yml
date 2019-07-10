@@ -8,18 +8,16 @@ agent:
 blocks:
   - name: Deploy server to Kubernetes
     task:
-      # Mount a secret which defines /home/semaphore/.kube/gc-k8s.yaml.
-      # By mounting it, we make file available in the job environment.
       # For info on creating secrets, see:
       # https://docs.semaphoreci.com/article/66-environment-variables-and-secrets
       secrets:
-        - name: gc-k8s-secret
         - name: gcr-secret
 
-      # Define an environment variable which configures kubectl:
+      # Set environment variables that your project requires.
+      # See https://docs.semaphoreci.com/article/66-environment-variables-and-secrets
       env_vars:
-        - name: KUBECONFIG
-          value: /home/semaphore/.kube/gc-k8s.yaml
+        - name: CLUSTER_NAME
+          value: semaphore-demo-javascript-server
       prologue:
         commands:
           # Authenticate using the file injected from the secret
@@ -28,6 +26,8 @@ blocks:
           - gcloud auth configure-docker -q
           - gcloud config set project $GCP_PROJECT_ID
           - gcloud config set compute/zone $GCP_PROJECT_DEFAULT_ZONE
+          # Get kubectl config file
+          - gcloud container clusters get-credentials $CLUSTER_NAME --zone $GCP_PROJECT_DEFAULT_ZONE --project $GCP_PROJECT_ID
           - checkout
           - cd src/server
       jobs:

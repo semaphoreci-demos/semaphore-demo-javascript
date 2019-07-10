@@ -10,12 +10,9 @@ agent:
 blocks:
   - name: Build
     task:
-      # Mount a secret which defines /home/semaphore/.kube/gc-k8s.yaml.
-      # By mounting it, we make file available in the job environment.
       # For info on creating secrets, see:
       # https://docs.semaphoreci.com/article/66-environment-variables-and-secrets
       secrets:
-        - name: gc-k8s-secret
         - name: gcr-secret
       jobs:
         - name: Deploy to Google Cloud Storage
