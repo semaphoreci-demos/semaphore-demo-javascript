@@ -53,6 +53,7 @@ blocks:
 
             # Copy production configs we linked using secrets
             - cp /home/semaphore/client-production.env .env
+            - source ./.env
 
             # Restore dependencies from cache.
             # For more info on caching, see https://docs.semaphoreci.com/article/68-caching-dependencies
