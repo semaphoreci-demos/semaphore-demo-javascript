@@ -10,6 +10,11 @@ agent:
 blocks:
   - name: Build
     task:
+      # Set environment variables that your project requires.
+      # See https://docs.semaphoreci.com/article/66-environment-variables-and-secrets
+      env_vars:
+        - name: BUCKET_NAME
+          value: YOUR_APP_URL
       # For info on creating secrets, see:
       # https://docs.semaphoreci.com/article/66-environment-variables-and-secrets
       secrets:
@@ -23,14 +28,6 @@ blocks:
             - gcloud auth configure-docker -q
             - gcloud config set project $GCP_PROJECT_ID
             - gcloud config set compute/zone $GCP_PROJECT_DEFAULT_ZONE
-
-            # Get the latest version of our source code from GitHub:
-            - checkout --use-cache
-            - cd src/client
-
-            # Restore dependencies from cache.
-            # For more info on caching, see https://docs.semaphoreci.com/article/68-caching-dependencies
-            - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
 
             # Restore build from cache.
             - cache restore client-build-$SEMAPHORE_WORKFLOW_ID

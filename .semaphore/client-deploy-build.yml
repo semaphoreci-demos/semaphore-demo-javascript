@@ -30,8 +30,8 @@ blocks:
           value: production
         - name: CI
           value: 'true'
-      secrets:
-        - name: client-production-env-secret
+        - name: REACT_APP_API_BASE_URL
+          value: "http://YOUR_CLUSTER_URL/v1/api"
       # This block runs two jobs in parallel and they both share common
       # setup steps. We can group them in a prologue.
       # See https://docs.semaphoreci.com/article/50-pipeline-yaml#prologue
@@ -51,14 +51,9 @@ blocks:
           commands:
             - cd src/client
 
-            # Copy production configs we linked using secrets
-            - cp /home/semaphore/client-production.env .env
-            - source ./.env
-
             # Restore dependencies from cache.
             # For more info on caching, see https://docs.semaphoreci.com/article/68-caching-dependencies
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
-
             - npm run build
 
             # Store the latest version of client build in cache to reuse in further blocks:
