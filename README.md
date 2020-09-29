@@ -4,6 +4,8 @@ Example application and CI/CD pipeline showing how to run a JavaScript project
 on Semaphore 2.0. Project consists of a Node.js server based on Nest.js, and a
 React client. Code is written in TypeScript.
 
+**Note:** The `fork-and-run` branch contains simplified Semaphore pipeline that doesn't include deployment to Google Cloud. To see more complex Semaphore workflow, please check `master` branch.
+
 ## CI/CD on Semaphore
 
 Fork this repository and use it to [create a
@@ -20,8 +22,6 @@ The example pipeline contains 4 blocks:
  - Run E2E Tests
     - Runs E2E tests through cypress on client.
     - Runs E2E tests through jest on server.
-
-**Note:** The `for-and-run` branch contains simplified Semaphore pipeline that doesn't include deployment to Google Cloud. To see more complex Semaphore workflow, please check `master` branch.
 
 ## Local project setup
 
