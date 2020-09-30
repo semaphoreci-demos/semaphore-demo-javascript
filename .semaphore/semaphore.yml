@@ -88,6 +88,7 @@ blocks:
             - cd src/client
             # At this point we can assume 100% cache hit rate of node modules:
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
+            - npm install
 
             # Run task as defined in package.json:
             - npm run lint
@@ -95,6 +96,7 @@ blocks:
           commands:
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
+            - npm install
             - npm run lint
 
   - name: Tests
@@ -115,11 +117,13 @@ blocks:
           commands:
             - cd src/client
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
+            - npm install
             - npm test
         - name: Server Tests
           commands:
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
+            - npm install
             - npm test
 
   - name: E2e Tests
@@ -147,12 +151,14 @@ blocks:
           commands:
             - cd src/client
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
+            - npm install
             - npx cypress install
             - npm run test:e2e
         - name: Server Tests
           commands:
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
+            - npm install
             - cp ormconfig.ci.json ormconfig.json
             - npm run migrate:up
             - npm run test:e2e
