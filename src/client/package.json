@@ -17,7 +17,7 @@
     "@types/react-router-dom": "^4.3.1",
     "@types/redux-actions": "^2.3.1",
     "@types/yup": "^0.26.8",
-    "axios": "^0.18.0",
+    "axios": "^0.21.1",
     "connected-react-router": "^6.2.2",
     "enzyme": "^3.8.0",
     "enzyme-adapter-react-16": "^1.9.1",
