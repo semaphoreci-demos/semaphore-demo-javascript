@@ -42,7 +42,7 @@
     "start": "react-scripts start",
     "start:ci": "PORT=3030 react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --reporters=default --reporters=jest-junit",
     "eject": "react-scripts eject",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "cypress:open": "cypress open",
