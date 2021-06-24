@@ -121,6 +121,10 @@ blocks:
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
             - npm test
+      epilogue:
+        always:
+          commands:
+            - test-results publish junit.xml
 
   - name: E2e Tests
     task:
@@ -156,6 +160,10 @@ blocks:
             - cp ormconfig.ci.json ormconfig.json
             - npm run migrate:up
             - npm run test:e2e
+      epilogue:
+        always:
+          commands:
+            - test-results publish junit.xml
 
 # If all tests pass, we move on to build a Docker image.
 # This is a job for a separate pipeline which we link with a promotion.

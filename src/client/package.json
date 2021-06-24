@@ -42,11 +42,11 @@
     "start": "react-scripts start",
     "start:ci": "PORT=3030 react-scripts start",
     "build": "react-scripts build",
-    "test": "react-scripts test",
+    "test": "react-scripts test --reporters=default --reporters=jest-junit",
     "eject": "react-scripts eject",
     "lint": "tslint -p tsconfig.json -c tslint.json",
     "cypress:open": "cypress open",
-    "cypress:run": "cypress run",
+    "cypress:run": "cypress run --reporter junit --reporter-options \"mochaFile=junit.xml,toConsole=true\"",
     "test:e2e": "start-server-and-test start:ci http://localhost:3030 cypress:run",
     "deploy": "gh-pages -d build"
   },
@@ -63,6 +63,7 @@
     "@cypress/webpack-preprocessor": "^4.0.3",
     "@types/redux-mock-store": "^1.0.0",
     "cypress": "^3.1.5",
+    "jest-junit": "12.0.0",
     "redux-mock-store": "^1.5.3",
     "start-server-and-test": "^1.7.11",
     "ts-loader": "^5.3.3",
@@ -70,5 +71,15 @@
     "tslint-react": "^3.6.0",
     "typescript": "^3.3.3",
     "webpack": "^4.19.1"
+  },
+  "jest-junit": {
+    "suiteName": "jest tests",
+    "outputDirectory": ".",
+    "outputName": "junit.xml",
+    "uniqueOutputName": "false",
+    "classNameTemplate": "{classname}-{title}",
+    "titleTemplate": "{classname}-{title}",
+    "ancestorSeparator": " › ",
+    "usePathForSuiteName": "true"
   }
 }
