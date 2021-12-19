@@ -115,16 +115,22 @@ blocks:
       jobs:
         - name: Client Tests
           commands:
+            - export NAME="Client tests"
             - cd src/client
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
             - npm install
             - npm test
         - name: Server Tests
           commands:
+            - export NAME="Server tests"
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
             - npm install
             - npm test
+      epilogue:
+        always:
+          commands:
+            - "[[ -f junit.xml ]] && test-results publish --name \"🧪 $NAME\" junit.xml"
 
   - name: E2e Tests
     task:
@@ -149,6 +155,7 @@ blocks:
       jobs:
         - name: Client Tests
           commands:
+            - export NAME="Client tests"
             - cd src/client
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
             - npm install
@@ -156,9 +163,21 @@ blocks:
             - npm run test:e2e
         - name: Server Tests
           commands:
+            - export NAME="Server tests"
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
             - npm install
             - cp ormconfig.ci.json ormconfig.json
             - npm run migrate:up
             - npm run test:e2e
+      epilogue:
+        always:
+          commands:
+            - "[[ -f junit.xml ]] && test-results publish --name \"🏗️ $NAME\" junit.xml"
+
+after_pipeline:
+  task:
+    jobs:
+      - name: Publish Results
+        commands:
+          - test-results gen-pipeline-report
