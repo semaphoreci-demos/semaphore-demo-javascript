@@ -113,18 +113,20 @@ blocks:
       jobs:
         - name: Client Tests
           commands:
+            - export NAME="Client tests"
             - cd src/client
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
             - npm test
         - name: Server Tests
           commands:
+            - export NAME="Server tests"
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
             - npm test
       epilogue:
         always:
           commands:
-            - test-results publish junit.xml
+            - "[[ -f junit.xml ]] && test-results publish --name \"🧪 $NAME\" junit.xml"
 
   - name: E2e Tests
     task:
@@ -149,12 +151,14 @@ blocks:
       jobs:
         - name: Client Tests
           commands:
+            - export NAME="Client tests"
             - cd src/client
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
             - npx cypress install
             - npm run test:e2e
         - name: Server Tests
           commands:
+            - export NAME="Server tests"
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
             - cp ormconfig.ci.json ormconfig.json
@@ -163,7 +167,7 @@ blocks:
       epilogue:
         always:
           commands:
-            - test-results publish junit.xml
+            - "[[ -f junit.xml ]] && test-results publish --name \"🏗️ $NAME\" junit.xml"
 
 # If all tests pass, we move on to build a Docker image.
 # This is a job for a separate pipeline which we link with a promotion.
