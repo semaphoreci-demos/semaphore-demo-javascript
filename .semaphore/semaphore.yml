@@ -169,6 +169,13 @@ blocks:
           commands:
             - "[[ -f junit.xml ]] && test-results publish --name \"🏗️ $NAME\" junit.xml"
 
+after_pipeline:
+  task:
+    jobs:
+      - name: Publish Results
+        commands:
+          - test-results gen-pipeline-report
+
 # If all tests pass, we move on to build a Docker image.
 # This is a job for a separate pipeline which we link with a promotion.
 #
