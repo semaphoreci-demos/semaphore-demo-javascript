@@ -66,5 +66,3 @@ blocks:
 promotions:
   - name: Deploy server to Kubernetes
     pipeline_file: server-deploy-k8s.yml
-    auto_promote_on:
-      - result: passed

@@ -189,9 +189,5 @@ after_pipeline:
 promotions:
   - name: Dockerize server
     pipeline_file: server-docker-build.yml
-    auto_promote_on:
-      - result: passed
   - name: Deploy client
     pipeline_file: client-deploy-build.yml
-    auto_promote_on:
-      - result: passed
