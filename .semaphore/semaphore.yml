@@ -21,7 +21,7 @@ agent:
 # commands to execute.
 # See https://docs.semaphoreci.com/article/62-concepts
 blocks:
-  - name: Install dependencies
+  - name: 📦 Install dependencies
     task:
       # Set environment variables that your project requires.
       # See https://docs.semaphoreci.com/article/66-environment-variables-and-secrets
@@ -69,7 +69,7 @@ blocks:
             - npm install
             - cache store server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
 
-  - name: Lint
+  - name: 🔍 Lint
     task:
       env_vars:
         - name: NODE_ENV
@@ -97,7 +97,7 @@ blocks:
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
             - npm run lint
 
-  - name: Tests
+  - name: 🧪 Unit Tests
     task:
       env_vars:
         - name: NODE_ENV
@@ -111,13 +111,13 @@ blocks:
           - node --version
           - npm --version
       jobs:
-        - name: Client Tests
+        - name: Client Unit Tests
           commands:
             - export NAME="Client tests"
             - cd src/client
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
             - npm test
-        - name: Server Tests
+        - name: Server Unit Tests
           commands:
             - export NAME="Server tests"
             - cd src/server
@@ -128,7 +128,7 @@ blocks:
           commands:
             - "[[ -f junit.xml ]] && test-results publish --name \"🧪 $NAME\" junit.xml"
 
-  - name: E2e Tests
+  - name: 🔄 E2E Tests
     task:
       env_vars:
         - name: NODE_ENV
@@ -149,14 +149,14 @@ blocks:
           # system package:
           - sudo apt-get install -y libgtk2.0-0
       jobs:
-        - name: Client Tests
+        - name: Client E2E Tests
           commands:
             - export NAME="Client tests"
             - cd src/client
             - cache restore client-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),client-node-modules-$SEMAPHORE_GIT_BRANCH,client-node-modules-master
             - npx cypress install
             - npm run test:e2e
-        - name: Server Tests
+        - name: Server E2E Tests
           commands:
             - export NAME="Server tests"
             - cd src/server
