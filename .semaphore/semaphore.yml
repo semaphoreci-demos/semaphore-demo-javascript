@@ -66,7 +66,7 @@ blocks:
           commands:
             - cd src/server
             - cache restore server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json),server-node-modules-$SEMAPHORE_GIT_BRANCH,server-node-modules-master
-            - npm install
+            - npm install --legacy-peer-deps
             - cache store server-node-modules-$SEMAPHORE_GIT_BRANCH-$(checksum package-lock.json) node_modules
 
   - name: 🔍 Lint
