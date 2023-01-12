@@ -28,7 +28,7 @@
     "@nestjs/typeorm": "^5.2.2",
     "@nestjs/websockets": "^5.4.0",
     "class-transformer": "^0.3.1",
-    "class-validator": "^0.9.1",
+    "class-validator": "^0.14.0",
     "dotenv": "^6.2.0",
     "joi": "^14.3.1",
     "pg": "^8.7.3",
