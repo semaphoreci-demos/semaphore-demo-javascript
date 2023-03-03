@@ -62,7 +62,7 @@
   "devDependencies": {
     "@cypress/webpack-preprocessor": "^4.0.3",
     "@types/redux-mock-store": "^1.0.0",
-    "cypress": "^3.1.5",
+    "cypress": "^12.7.0",
     "jest-junit": "12.0.0",
     "redux-mock-store": "^1.5.3",
     "start-server-and-test": "^1.7.11",
