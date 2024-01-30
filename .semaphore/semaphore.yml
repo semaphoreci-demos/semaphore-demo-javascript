@@ -41,7 +41,7 @@ blocks:
 
           # Use the version of Node.js specified in .nvmrc.
           # Semaphore provides nvm preinstalled.
-          - nvm use
+          - nvm install
           - node --version
           - npm --version
       jobs:
@@ -79,7 +79,7 @@ blocks:
       prologue:
         commands:
           - checkout
-          - nvm use
+          - nvm install
           - node --version
           - npm --version
       jobs:
@@ -107,7 +107,7 @@ blocks:
       prologue:
         commands:
           - checkout
-          - nvm use
+          - nvm install
           - node --version
           - npm --version
       jobs:
@@ -138,7 +138,7 @@ blocks:
       prologue:
         commands:
           - checkout
-          - nvm use
+          - nvm install
           - node --version
           - npm --version
           # Start a Postgres database. On Semaphore, databases run in the same
